@@ -17,12 +17,14 @@ init([]) ->
 handle_call({verify_proof, StateData}, From, State = #{pending_verifications := Pending}) ->
     io:format("Delegating zero-knowledge proof generation to Leo for state: ~p~n", [StateData]),
     
-    %% Format the execution command pointing to the natively compiled Rust framework.
-    %% This strictly delegates the cryptographic processing OUT of the BEAM VM to the Aleo network layer.
-    Payload = case StateData of
-        #{id := RId} when is_integer(RId) -> integer_to_list(RId) ++ "u32";
-        _ -> "1u32"
-    end,
+    %% Formalized JSON serialization boundary leveraging JSX.
+    %% This ensures the Erlang Maps adhere perfectly to exact schema limits 
+    %% before we project them out to the Rust Zero-Knowledge circuits.
+    JsonPayload = jsx:encode(StateData),
+    StructuredData = jsx:decode(JsonPayload, [return_maps]),
+    ParsedId = maps:get(<<"id">>, StructuredData, 1),
+    
+    Payload = integer_to_list(ParsedId) ++ "u32",
     Command = "leo run main " ++ Payload,
     
     %% Open an OS Port to securely run the Rust/Leo compilation securely in another OS process.

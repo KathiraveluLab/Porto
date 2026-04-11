@@ -5,7 +5,8 @@
   {mod, {porto_core_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    jsx
    ]},
   {env,[]},
   {modules, []},
