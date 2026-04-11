@@ -1,8 +1,10 @@
-// The execution boundaries mapped strictly corresponding to the Aleo ecosystem layer.
+// PORTO base circuits — general-purpose ZK transition.
+// Domain-specific circuits (e.g., equitable_allocation) are in examples/.
 program porto_circuits.aleo {
-    // A simplified proof boundary verifying that the resource states adhere to standard u32 mathematics
+
     transition main(public a: u32) -> u32 {
         let c: u32 = a + 10u32;
         return c;
     }
 }
+

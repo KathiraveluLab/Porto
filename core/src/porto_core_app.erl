@@ -3,7 +3,7 @@
 
 -export([start/2, stop/1, track_resource/1]).
 
-%% @doc Dynamically spawns a new managed resource actor under the simple_one_for_one tree
+%% @doc Dynamically spawns a new managed resource actor
 track_resource(ResourceId) ->
     porto_resource_sup:start_resource(ResourceId).
 
@@ -34,7 +34,7 @@ start(_StartType, _StartArgs) ->
     end,
 
     Dispatch = cowboy_router:compile([
-        {'_', [{"/track", porto_http_handler, []}]}
+        {'_', [{"/track", porto_http_handler, [{action, track}]}]}
     ]),
     {ok, _} = cowboy:start_clear(porto_http_listener,
         [{port, HttpPort}],

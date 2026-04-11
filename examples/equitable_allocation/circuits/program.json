@@ -1,0 +1,6 @@
+{
+    "program": "equitable_allocation.aleo",
+    "version": "0.1.0",
+    "description": "PORTO Use Case: Verifiable Equitable Resource Allocation",
+    "license": "Apache-2.0"
+}

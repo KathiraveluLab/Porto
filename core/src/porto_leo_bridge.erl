@@ -1,7 +1,7 @@
 -module(porto_leo_bridge).
 -behaviour(gen_server).
 
--export([start_link/0, verify_proof/1]).
+-export([start_link/0, verify_proof/1, verify_allocation/4]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 start_link() ->
@@ -9,6 +9,15 @@ start_link() ->
 
 verify_proof(StateData) ->
     gen_server:call(?MODULE, {verify_proof, StateData}, infinity).
+
+%% Hashes the ParticipantId using SHA-256, truncates to 128 bits,
+%% and submits an allocation fairness proof to the Leo circuit.
+verify_allocation(ParticipantId, Allocation, TotalPool, MinShare) ->
+    %% SHA-256 → first 16 bytes → u128 representation
+    <<Hash:128, _/binary>> = crypto:hash(sha256, term_to_binary(ParticipantId)),
+    gen_server:call(?MODULE,
+        {verify_allocation, Allocation, Hash, TotalPool, MinShare},
+        infinity).
 
 init([]) ->
     io:format("Initializing PORTO Leo Bridge...~n"),
@@ -33,6 +42,19 @@ handle_call({verify_proof, StateData}, From, State = #{pending_verifications := 
                             [{cd, "../circuits"}, stream, exit_status, binary]),
                             
     %% Store the caller reference (`From`) to respond asynchronously without blocking other actors
+    NewPending = maps:put(Port, From, Pending),
+    {noreply, State#{pending_verifications => NewPending}};
+
+handle_call({verify_allocation, Allocation, Hash, TotalPool, MinShare}, From,
+            State = #{pending_verifications := Pending}) ->
+    Command = "leo run verify_allocation "
+        ++ integer_to_list(Allocation)  ++ "u32 "
+        ++ integer_to_list(Hash)        ++ "u128 "
+        ++ integer_to_list(TotalPool)   ++ "u32 "
+        ++ integer_to_list(MinShare)    ++ "u32",
+    io:format("Submitting allocation proof: ~s~n", [Command]),
+    Port = erlang:open_port({spawn, Command},
+                            [{cd, "../circuits"}, stream, exit_status, binary]),
     NewPending = maps:put(Port, From, Pending),
     {noreply, State#{pending_verifications => NewPending}};
 
