@@ -18,6 +18,18 @@ start(_StartType, _StartArgs) ->
         [{attributes, [id, history]}, 
          {disc_copies, [node()]}]),
          
+    %% Construct external API routing tables securely accepting REST POST injections natively
+    Dispatch = cowboy_router:compile([
+        {'_', [{"/track", porto_http_handler, []}]}
+    ]),
+    
+    %% Securely mapping universally to TCP port 8080 routing inbound user commands
+    {ok, _} = cowboy:start_clear(porto_http_listener,
+        [{port, 8080}],
+        #{env => #{dispatch => Dispatch}}
+    ),
+    io:format("Cowboy API Gateway successfully bounded to TCP Port 8080~n"),
+         
     porto_core_sup:start_link().
 
 stop(_State) ->
