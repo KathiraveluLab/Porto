@@ -21,4 +21,16 @@ cargo install leo-lang
 Verify the installation by running `leo --version`.
 
 ### 3. Running PORTO Core
-(Further instructions for `rebar3` scaffolding will appear here.)
+Once the zero-knowledge environment is accessible, you can compile and boot the Erlang distributed orchestration engine natively:
+
+```bash
+cd porto_core
+rebar3 compile
+rebar3 shell
+```
+
+Inside the Erlang shell, you can dynamically spin up your off-chain tracking actors using the provided API. This will seamlessly spawn concurrent OS processes mapping to your Aleo execution circuits:
+```erlang
+% Spawns a new actor to track "ResourceA" and validate bounds via zero-knowledge
+porto_core_app:track_resource("ResourceA").
+```
