@@ -24,7 +24,7 @@ handle_call({verify_proof, StateData}, From, State = #{pending_verifications := 
     %% Open an OS Port to securely run the Rust/Leo compilation securely in another OS process.
     %% We set the working directory strictly to the circuits folder.
     Port = erlang:open_port({spawn, Command}, 
-                            [{cd, "../porto_circuits"}, stream, exit_status, binary]),
+                            [{cd, "../circuits"}, stream, exit_status, binary]),
                             
     %% Store the caller reference (`From`) to respond asynchronously without blocking other actors
     NewPending = maps:put(Port, From, Pending),

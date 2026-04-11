@@ -1,4 +1,4 @@
-{application, porto_core,
+{application, core,
  [{description, "PORTO Core Orchestration Engine"},
   {vsn, "0.1.0"},
   {registered, []},

@@ -1,32 +1,35 @@
 # PORTO
+Private Off-chain Resource Tracking and Orchestration
 
-**Private Off-chain Resource Tracking and Orchestration.**
+PORTO is a radically new decentralized framework that implements an Actor-Model orchestration engine using Erlang/OTP natively integrated with the Aleo Zero-Knowledge (ZK) execution layer via the Leo CLI.
 
-## Getting Started
+It fundamentally solves the throughput-privacy trilemma plaguing monolithic Layer-2 sequencers by completely isolating state logic across multi-node parallel environments. Mathematical confidentiality is generated strictly off-chain while verifiable cryptographic proofs are transmitted to the Aleo ecosystem.
 
-PORTO bridges a highly concurrent Erlang BEAM runtime with the Aleo Zero-Knowledge toolchain. To run this project locally, you must first install Rust and the Leo language compiler.
+## Build Requirements
 
-### 1. Install prerequisites (Rust & Cargo)
-Leo is built from Rust source. Install the Rust toolchain:
+1. **Erlang/OTP >= 25** (for the `core` orchestration framework)
+2. **Rebar3** (Erlang build tool)
+3. **Rust & Cargo** (Required to natively compile the Aleo dependencies)
+4. **Leo CLI** (Aleo's zero-knowledge circuit compiler)
+
+## Quick Start (Local Dry-run Execution)
+
+### 1. Installing Aleo & Leo
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source $HOME/.cargo/env
-```
-
-### 2. Install Leo Compiler
-Once Cargo is configured in your path, install the `leo` binary:
-```bash
-cargo install leo-lang
+# Clone the Leo repository to install the Leo CLI locally
+git clone https://github.com/AleoHQ/leo
+cd leo
+cargo install --path .
 ```
 Verify the installation by running `leo --version`.
 
-### 3. Running PORTO Core
+### 2. Running PORTO Core
 Once the zero-knowledge environment is accessible, you can compile and boot the Erlang distributed orchestration engine natively:
 
 ```bash
-cd porto_core
+cd core
 rebar3 compile
-rebar3 shell
+erl -pa _build/default/lib/core/ebin
 ```
 
 Inside the Erlang shell, you can dynamically spin up your off-chain tracking actors using the provided API. This will seamlessly spawn concurrent OS processes mapping to your Aleo execution circuits:

@@ -16,7 +16,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: porto_core # Fixed: Point the action to the correct internal Erlang directory
+        working-directory: core # Fixed: Point the action to the correct internal Erlang directory
 
     steps:
     - uses: actions/checkout@v4
