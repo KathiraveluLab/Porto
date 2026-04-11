@@ -17,14 +17,14 @@ init([]) ->
 handle_call({verify_proof, StateData}, From, State = #{pending_verifications := Pending}) ->
     io:format("Delegating zero-knowledge proof generation to Leo for state: ~p~n", [StateData]),
     
-    %% Format the Leo CLI execution command. In production, StateData is serialized to ALEO inputs.
+    %% Format the execution command pointing to the natively compiled Rust framework.
     %% This strictly delegates the cryptographic processing OUT of the BEAM VM.
-    Command = "leo run verify_resource_allocation 100field 50u32 0field",
+    Command = "./heavy_workload",
     
     %% Open an OS Port to securely run the Rust/Leo compilation securely in another OS process.
     %% We set the working directory strictly to the circuits folder.
     Port = erlang:open_port({spawn, Command}, 
-                            [{cd, "../../porto_circuits"}, stream, exit_status, binary]),
+                            [{cd, "../porto_circuits"}, stream, exit_status, binary]),
                             
     %% Store the caller reference (`From`) to respond asynchronously without blocking other actors
     NewPending = maps:put(Port, From, Pending),
