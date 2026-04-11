@@ -25,17 +25,22 @@ start(_StartType, _StartArgs) ->
         {aborted, {already_exists, _}}    -> ok
     end,
          
-    %% Construct external API routing tables securely accepting REST POST injections natively
+    %% Read HTTP port from sys.config (resolved from $PORT env var at release time),
+    %% falling back to 8080 if not configured.
+    HttpPort = case application:get_env(core, http_port) of
+        {ok, P} when is_integer(P) -> P;
+        {ok, P} when is_list(P)    -> list_to_integer(P);
+        _                          -> 8080
+    end,
+
     Dispatch = cowboy_router:compile([
         {'_', [{"/track", porto_http_handler, []}]}
     ]),
-    
-    %% Securely mapping universally to TCP port 8080 routing inbound user commands
     {ok, _} = cowboy:start_clear(porto_http_listener,
-        [{port, 8080}],
+        [{port, HttpPort}],
         #{env => #{dispatch => Dispatch}}
     ),
-    io:format("Cowboy API Gateway successfully bounded to TCP Port 8080~n"),
+    io:format("Cowboy API Gateway listening on TCP port ~p~n", [HttpPort]),
          
     porto_core_sup:start_link().
 
