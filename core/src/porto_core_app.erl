@@ -9,14 +9,21 @@ track_resource(ResourceId) ->
 
 start(_StartType, _StartArgs) ->
     %% Establish core memory structure for disaster recovery persistence.
-    mnesia:create_schema([node()]),
+    %% Guard against already_exists on nodes with existing persistent schema.
+    case mnesia:create_schema([node()]) of
+        ok -> ok;
+        {error, {_, {already_exists, _}}} -> ok
+    end,
     application:start(mnesia),
-    io:format("Mnesia Database Sub-Layer Intialized~n"),
-    
-    %% Create persistence table replicating state histories
-    mnesia:create_table(porto_state, 
-        [{attributes, [id, history]}, 
-         {disc_copies, [node()]}]),
+    io:format("Mnesia Database Sub-Layer Initialized~n"),
+
+    %% Create persistence table — idempotent on restart.
+    case mnesia:create_table(porto_state,
+            [{attributes, [id, history]},
+             {disc_copies, [node()]}]) of
+        {atomic, ok}                      -> ok;
+        {aborted, {already_exists, _}}    -> ok
+    end,
          
     %% Construct external API routing tables securely accepting REST POST injections natively
     Dispatch = cowboy_router:compile([
