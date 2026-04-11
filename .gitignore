@@ -23,3 +23,16 @@ _bmad
 *.env
 .vscode
 _paper
+
+# Rust build artifacts in circuits/
+circuits/target/
+circuits/heavy_workload
+circuits/*.rs.bk
+
+# Leo build outputs
+circuits/build/
+circuits/outputs/
+
+# Mnesia runtime data
+core/data/
+core/Mnesia*/
