@@ -47,7 +47,7 @@ handle_body(track, Body, Req, State) ->
             <<"{\"error\": \"Invalid JSON payload\"}">>,
             Req),
         {ok, Req2, State}
-    end;
+    end.
 
 %% ---- /allocate is handled by the equitable_allocation example, not core ----
 %% See examples/equitable_allocation/core/src/ for the allocation handler.
