@@ -69,7 +69,8 @@ handle_call({verify_allocation, Allocation, Hash, TotalPool, MinShare}, From,
         ++ integer_to_list(MinShare)    ++ "u32",
     io:format("Submitting allocation proof: ~s~n", [Command]),
     Port = erlang:open_port({spawn, Command},
-                            [{cd, "../circuits"}, stream, exit_status, binary]),
+                            [{cd, "../examples/equitable_allocation/circuits"},
+                             stream, exit_status, binary]),
     NewPending = maps:put(Port, From, Pending),
     {noreply, State#{pending_verifications => NewPending}};
 
@@ -81,7 +82,8 @@ handle_call({verify_quota, Usage, Hash, Quota}, From,
         ++ integer_to_list(Quota)  ++ "u32",
     io:format("Submitting quota compliance proof: ~s~n", [Command]),
     Port = erlang:open_port({spawn, Command},
-                            [{cd, "../circuits"}, stream, exit_status, binary]),
+                            [{cd, "../examples/sustainability_quota/circuits"},
+                             stream, exit_status, binary]),
     NewPending = maps:put(Port, From, Pending),
     {noreply, State#{pending_verifications => NewPending}};
 
@@ -93,7 +95,8 @@ handle_call({verify_eligibility, Score, Hash, Threshold}, From,
         ++ integer_to_list(Threshold) ++ "u32",
     io:format("Submitting eligibility proof: ~s~n", [Command]),
     Port = erlang:open_port({spawn, Command},
-                            [{cd, "../circuits"}, stream, exit_status, binary]),
+                            [{cd, "../examples/service_eligibility/circuits"},
+                             stream, exit_status, binary]),
     NewPending = maps:put(Port, From, Pending),
     {noreply, State#{pending_verifications => NewPending}};
 
