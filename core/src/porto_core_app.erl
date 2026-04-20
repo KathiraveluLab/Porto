@@ -8,6 +8,11 @@ track_resource(ResourceId) ->
     porto_resource_sup:start_resource(ResourceId).
 
 start(_StartType, _StartArgs) ->
+    %% Ensure the mnesia directory exists before attempting to create the schema.
+    {ok, MnesiaDir} = application:get_env(mnesia, dir),
+    % ensure_dir/1 expects a file path, so we join with a dummy name to ensure the folder itself exists
+    ok = filelib:ensure_dir(filename:join(MnesiaDir, "dummy")),
+
     %% Establish core memory structure for disaster recovery persistence.
     %% Guard against already_exists on nodes with existing persistent schema.
     case mnesia:create_schema([node()]) of
