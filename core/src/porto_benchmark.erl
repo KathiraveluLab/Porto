@@ -3,7 +3,7 @@
 
 %% Benchmark Methodology Note:
 %% ===========================
-%% These benchmarks measure PORTO's orchestration layer overhead —
+%% These benchmarks measure PORTO's orchestration layer overhead -
 %% specifically the latency and throughput difference between:
 %%   (a) a monolithic synchronous sequencer (Sync baseline), and
 %%   (b) PORTO's parallel actor-per-proof dispatch (Async).

@@ -1,19 +1,29 @@
-# Service Eligibility — PORTO Use Case
+# Service Eligibility - PORTO Use Case
 
-This use case demonstrates PORTO applied to privacy-preserving eligibility
-verification for public digital services, motivated by the EQUISYS goal of
-human-centered design for equitable and sustainable digital societies.
+## Overview
+This example demonstrates a privacy-preserving application for assessing eligibility
+for public digital services (e.g., broadband subsidies, digital inclusion programs).
 
-## Scenario
+Citizens can prove that they meet a specific eligibility threshold (derived from
+income, geography, or other vulnerability indexes) without revealing their raw
+score on-chain.
 
-A citizen or household applies for a public digital service (e.g., subsidised
-broadband access, a digital skills program, or community compute credits). To
-qualify, their eligibility score — derived from an income decile, geographic
-remoteness index, or social vulnerability index — must not exceed a publicly
-known threshold. Requiring applicants to disclose their full score or underlying
-attributes to the service provider is a privacy violation and a barrier to uptake.
+## Key Logic
+A participant's eligibility score - derived from factors like income decile or 
+geographic remoteness - must meet a publicly announced threshold to qualify.
+The score is kept private; only the eligibility status is published.
 
-PORTO enables the applicant to prove eligibility without revealing their score.
+## Running the Example
+1. Start the PORTO core.
+2. Spawn an eligibility actor:
+
+```erlang
+% Spawns a supervised actor for a specific applicant
+porto_eligibility_actor:start_link(ApplicantID, Score, Threshold).
+```
+
+Verification is performed via the `porto_leo_bridge`. Results are stored with the
+threshold applied - never the applicant's score.
 
 ## Structure
 
@@ -33,7 +43,7 @@ service_eligibility/
 Reuses `porto_leo_bridge:verify_eligibility/3` (shared bridge API) and the
 `porto_cluster` process group. The eligibility actors plug into PORTO without
 modifying core. The Mnesia audit record stores only the eligibility fact and
-threshold applied — never the applicant's score.
+threshold applied - never the applicant's score.
 
 ## Running the circuit
 

@@ -1,23 +1,23 @@
 %% PORTO Core Runtime Configuration
-%% sys.config.src — Values are resolved at release time.
-%% Dynamic OS environment variables take priority; static defaults are used as fallback.
+%% sys.config.src - Values are resolved at release time.
+%% Static defaults are provided for local development.
 [
   {core, [
-    %% HTTP API Port — override via PORT environment variable, default 8080
-    {http_port,    "${PORT:-8080}"},
+    %% HTTP API Port (Env: PORT)
+    {http_port,    8080},
 
-    %% Mnesia data directory — override via MNESIA_DIR, default ./data/mnesia
-    {mnesia_dir,   "${MNESIA_DIR:-./data/mnesia}"},
+    %% Mnesia data directory
+    {mnesia_dir,   "./data/mnesia"},
 
-    %% Erlang node cookie for clustering — override via ERLANG_COOKIE in production
-    {node_cookie,  "${ERLANG_COOKIE:-porto_dev_cookie}"},
+    %% Erlang node cookie
+    {node_cookie,  porto_dev_cookie},
 
-    %% Leo CLI executable path — override via LEO_PATH if not on system PATH
-    {leo_bin,      "${LEO_PATH:-leo}"}
+    %% Leo CLI executable path
+    {leo_bin,      "leo"}
   ]},
 
   {mnesia, [
-    {dir, "${MNESIA_DIR:-./data/mnesia}"}
+    {dir, "./data/mnesia"}
   ]},
 
   {kernel, [

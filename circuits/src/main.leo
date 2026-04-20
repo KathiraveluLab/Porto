@@ -1,5 +1,5 @@
-// PORTO base circuits — general-purpose ZK transition.
-// Domain-specific circuits (e.g., equitable_allocation) are in examples/.
+// PORTO base circuits - general-purpose ZK transition.
+// Domain-specific circuits (e.g., Equitable Allocation Circuit - PORTO Use Case)
 program porto_circuits.aleo {
 
     transition main(public a: u32) -> u32 {

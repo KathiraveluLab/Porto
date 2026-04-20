@@ -80,4 +80,23 @@ curl -X POST http://localhost:8080/track \
   -d '{"resource_id": "node-42"}'
 ```
 
-The port defaults to `8080` and can be overridden via the `$PORT` environment variable at release time.
+The port defaults to `8080` and can be overridden via the `$PORT` environment variable.
+
+## Troubleshooting & Persistence
+
+### Resetting the Local State
+PORTO uses Mnesia for off-chain state persistence. Data is stored in `core/data/`. To wipe the local database and start fresh:
+```bash
+rm -rf core/data/
+```
+
+### Clean Rebuild
+If you encounter "badfile" errors or BEAM mismatches after an Erlang/OTP upgrade, clear the build cache:
+```bash
+cd core
+rm -rf _build
+rebar3 compile
+```
+
+### ASCII-Safety
+This repository is strictly ASCII-safe. To ensure compatibility with the Erlang/Leo toolchains, avoid using non-ASCII characters (e.g., em-dashes) in code or configuration files.

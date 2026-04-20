@@ -1,4 +1,4 @@
-// Equitable Allocation Circuit — PORTO Use Case
+// Equitable Allocation Circuit - PORTO Use Case
 // This circuit is part of the examples/equitable_allocation/ application,
 // which demonstrates PORTO applied to EQUISYS goals.
 //

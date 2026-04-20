@@ -1,10 +1,10 @@
-// Sustainability Quota Compliance Circuit — PORTO Use Case
+// Sustainability Quota Compliance Circuit - PORTO Use Case
 // This circuit is part of the examples/sustainability_quota/ application,
 // which demonstrates PORTO applied to verifiable sustainable resource usage.
 //
 // Scenario: an organisation proves its actual resource consumption
 // (energy, bandwidth, carbon credits, compute hours) did not exceed
-// its allocated quota — without revealing the actual usage figure.
+// its allocated quota - without revealing the actual usage figure.
 //
 // Privacy model:
 //   - usage and participant_hash are PRIVATE: never revealed on-chain

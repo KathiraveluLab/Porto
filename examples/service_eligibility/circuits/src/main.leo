@@ -1,4 +1,4 @@
-// Service Eligibility Circuit — PORTO Use Case
+// Service Eligibility Circuit - PORTO Use Case
 // This circuit is part of the examples/service_eligibility/ application,
 // which demonstrates PORTO applied to privacy-preserving access to public
 // digital services (e.g., subsidised broadband, digital inclusion programs,
@@ -7,7 +7,7 @@
 // Scenario: A citizen or household proves they are eligible for a public
 // digital service by demonstrating their eligibility score (e.g., derived
 // from income decile, geographic remoteness index, or vulnerability index)
-// meets a publicly known threshold — without revealing the score itself.
+// meets a publicly known threshold - without revealing the score itself.
 //
 // Privacy model:
 //   - score and applicant_hash are PRIVATE: never revealed on-chain

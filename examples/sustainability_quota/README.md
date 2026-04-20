@@ -1,15 +1,26 @@
-# Sustainability Quota Compliance — PORTO Use Case
+# Sustainability Quota Compliance - PORTO Use Case
 
-This use case demonstrates PORTO applied to verifiable sustainable resource usage,
-motivated by the EQUISYS goal of equitable and sustainable digital societies.
+## Overview
+This use case demonstrates PORTO's applicability to sustainable digital resource 
+usage. It allows organisations to prove that their consumption of resources 
+(e.g., carbon credits, energy, compute hours) did not exceed an assigned quota
+without disclosing the exact consumption data.
 
-## Scenario
+## Key Logic
+An organisation's resource usage is compared against a public quota ceiling.
+The proof confirms that usage <= quota - without revealing the actual usage figure.
 
-An organisation (e.g., a shared compute provider, energy cooperative, or
-community broadband network) is allocated a resource quota (energy, bandwidth,
-compute hours). At the end of a period, it must prove to a regulator or auditor
-that its actual consumption did not exceed the quota — without revealing its
-exact usage figure.
+## Running the Example
+1. Start the PORTO core.
+2. Launch a quota actor for an organisation:
+
+```erlang
+% Spawns a supervised actor for a specific organisation
+porto_quota_actor:start_link(OrgID, CurrentUsage, QuotaLimit).
+```
+
+Proof generation and verification are handled by the `porto_leo_bridge`.
+Only the compliance status is persisted.
 
 ## Why this matters
 

@@ -1,15 +1,30 @@
-# Equitable Allocation — PORTO Use Case
+# Equitable Allocation - PORTO Use Case
 
-This directory contains a self-contained application demonstrating PORTO applied to
-verifiable equitable digital resource distribution, motivated by human-centered
-system design goals for equitable and sustainable digital societies (EQUISYS).
+## Overview
+This example demonstrates how PORTO's off-chain actors can be used to prove
+the "equitability" of a resource distribution without revealing the identities
+of the participants or the raw totals on-chain.
 
-## Scenario
+Participants generate a zero-knowledge proof that their local allocation is
+greater than or equal to a defined **Minimum Fair Share** (computed from the 
+Total Pool / Number of Participants).
 
-A coordinating authority distributes units from a shared digital resource pool
-(e.g., broadband capacity, compute quotas, public cloud credits) across participants.
-Each participant needs to prove their allocation meets the publicly agreed minimum
-share guarantee — without revealing their identity or exact allocation on-chain.
+The PORTO `porto_leo_bridge` handles the transition from Erlang actor state to
+the Leo ZK circuit, providing a cryptographic guarantee of the "right to a 
+share guarantee" - without revealing their identity or exact allocation on-chain.
+
+## Running the Example
+1. Ensure `rebar3` is in your path.
+2. Ensure `leo` CLI is installed and accessible.
+3. Start the PORTO cluster and the allocation actor.
+
+```erlang
+% Spawns a supervised equitable allocation actor
+porto_allocation_actor:start_link(ParticipantID, Allocation, TotalPool, MinShare).
+```
+
+If the Zero-Knowledge verification fails, the Erlang process will terminate
+with a non-zero exit - consistent with PORTO's hard-error, let-it-crash policy.
 
 ## Structure
 
@@ -40,7 +55,7 @@ leo run verify_allocation 50u32 1234567890123456789012345678901234567890u128 100
 ```
 
 A constraint violation (e.g. allocation below min_share) causes Leo to abort
-with a non-zero exit — consistent with PORTO's hard-error, let-it-crash policy.
+with a non-zero exit - consistent with PORTO's hard-error, let-it-crash policy.
 
 ## HTTP API (when the example's Cowboy endpoint is active)
 

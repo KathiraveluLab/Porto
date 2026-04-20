@@ -17,7 +17,7 @@ start(_StartType, _StartArgs) ->
     application:start(mnesia),
     io:format("Mnesia Database Sub-Layer Initialized~n"),
 
-    %% Create persistence table — idempotent on restart.
+    %% Create persistence table - idempotent on restart.
     case mnesia:create_table(porto_state,
             [{attributes, [id, history]},
              {disc_copies, [node()]}]) of

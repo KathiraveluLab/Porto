@@ -25,7 +25,7 @@ handle_call(verify, _From, State = #{applicant_id := AId,
     {ok, Result} = porto_leo_bridge:verify_eligibility(AId, Score, Threshold),
     io:format("Eligibility verified for ~p: ~p~n", [AId, Result]),
 
-    %% Persist eligibility result to Mnesia — applicant's score is NOT stored,
+    %% Persist eligibility result to Mnesia - applicant's score is NOT stored,
     %% only the fact of eligibility and the threshold applied.
     mnesia:activity(transaction, fun() ->
         mnesia:write({porto_state, AId, {eligible, Threshold}})
