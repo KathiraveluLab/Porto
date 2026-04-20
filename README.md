@@ -12,14 +12,16 @@ The easiest way to set up PORTO and its dependencies (Erlang, Rust, Leo CLI) is 
 *   **Resolve OTP Version Mismatches**: It bootstraps `rebar3` from source to guarantee compatibility with your local Erlang version (fixes the common "badfile" error).
 *   Correctly build the Leo CLI from its sub-crate boundaries.
 
+### Linux (Requires sudo for system headers)
 ```bash
-# Linux (Requires sudo for system headers)
 git clone https://github.com/KathiraveluLab/PORTO
 cd PORTO
 chmod +x setup_porto.sh
 ./setup_porto.sh
+```
 
-# Windows (Run as Administrator for Chocolatey/Path setup)
+### Windows (Run as Administrator for Chocolatey/Path setup)
+```bash
 git clone https://github.com/KathiraveluLab/PORTO
 cd PORTO
 setup_porto.bat
