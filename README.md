@@ -5,30 +5,33 @@ PORTO is a radically new decentralized framework that implements an Actor-Model 
 
 It fundamentally solves the throughput-privacy trilemma plaguing monolithic Layer-2 sequencers by completely isolating state logic across multi-node parallel environments. Mathematical confidentiality is generated strictly off-chain while verifiable cryptographic proofs are transmitted to the Aleo ecosystem.
 
-## Build Requirements
+## Build & Installation
 
-1. **Erlang/OTP >= 25** (for the `core` orchestration framework)
-2. **Rebar3** (Erlang build tool)
-3. **Rust & Cargo** (Required to natively compile the Aleo dependencies)
-4. **Leo CLI** (Aleo's zero-knowledge circuit compiler)
+The easiest way to set up PORTO and its dependencies (Erlang, Rust, Leo CLI) is using the provided setup script:
+
+```bash
+# Linux
+git clone https://github.com/KathiraveluLab/PORTO
+cd PORTO
+chmod +x setup_porto.sh
+./setup_porto.sh
+
+# Windows (Run as Administrator)
+git clone https://github.com/KathiraveluLab/PORTO
+cd PORTO
+setup_porto.bat
+```
+
+The script will automatically detect your environment, install missing system headers, and build the Leo CLI from source using the correct package manifests.
 
 ## Quick Start (Local Dry-run Execution)
 
-### 1. Installing Aleo & Leo
-```bash
-# Clone the Leo repository to install the Leo CLI locally
-git clone https://github.com/AleoHQ/leo
-cd leo
-cargo install --path .
-```
-Verify the installation by running `leo --version`.
+### 1. Running PORTO Core
 
-### 2. Running PORTO Core
-Once the zero-knowledge environment is accessible, you can compile and boot the Erlang distributed orchestration engine natively:
+After running the setup script, the PORTO `core` is already compiled. You can boot the Erlang distributed orchestration engine natively:
 
 ```bash
 cd core
-rebar3 compile
 erl -pa _build/default/lib/core/ebin
 ```
 
